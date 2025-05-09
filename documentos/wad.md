@@ -16,5 +16,5 @@ O banco de dados foi modelado com base em uma estrutura simples contendo, por ex
 
 > O modelo físico do banco de dados está representado na imagem abaixo:
 
-**[Insira a imagem aqui no markdown com o seguinte comando:]**
+![Modelo Físico](../assets/modelo-banco.png)
 ```
