@@ -1,0 +1,20 @@
+{
+  "name": "projeto-web",
+  "version": "1.0.0",
+  "description": "<p align=\"center\"> <a href= \"https://www.inteli.edu.br/\"><img src=\"/assets/inteli.png\" alt=\"Inteli - Instituto de Tecnologia e Liderança\" border=\"0\"></a> </p>",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "migration": "node ./migrations/runMigration.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.0"
+  }
+}

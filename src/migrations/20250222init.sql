@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS categorias (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tarefas (
+  id SERIAL PRIMARY KEY,
+  nome TEXT NOT NULL,
+  descricao TEXT,
+  status TEXT DEFAULT 'pendente',
+  categorias_id INTEGER REFERENCES categorias(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

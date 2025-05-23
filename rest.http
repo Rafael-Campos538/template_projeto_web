@@ -1,0 +1,26 @@
+### Buscar todas as categorias
+GET http://localhost:3000/categorias
+
+### Buscar categoria por ID
+GET http://localhost:3000/categorias/1
+
+### Criar nova categoria
+POST http://localhost:3000/categorias
+Content-Type: application/json
+
+{
+  "nome": "Rafael Campos",
+  "descricao": "essa aula é impossivel"
+}
+
+### Atualizar categoria
+PUT http://localhost:3000/categorias/1
+Content-Type: application/json
+
+{
+  "nome": "Rafael Campos"
+  "descricao": "Coisa impossivel"
+}
+
+### Deletar categoria
+DELETE http://localhost:3000/categorias/1
