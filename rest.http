@@ -9,7 +9,7 @@ POST http://localhost:3000/categorias
 Content-Type: application/json
 
 {
-  "nome": "Rafael Campos",
+  "nome": "Estudos"
 }
 
 ### Atualizar categoria
@@ -17,8 +17,76 @@ PUT http://localhost:3000/categorias/1
 Content-Type: application/json
 
 {
-  "nome": "Rafael Campos"
+  "nome": "Trabalho"
 }
 
 ### Deletar categoria
 DELETE http://localhost:3000/categorias/1
+
+---
+
+### Buscar todos os usuários
+GET http://localhost:3000/usuarios
+
+### Buscar usuário por ID
+GET http://localhost:3000/usuarios/1
+
+### Criar novo usuário
+POST http://localhost:3000/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Rafael Figueiredo Campos",
+  "email": "rafael@example.com",
+  "senha": "123456"
+}
+
+### Atualizar usuário
+PUT http://localhost:3000/usuarios/1
+Content-Type: application/json
+
+{
+  "nome": "Rafael F. Campos",
+  "email": "rafael.fc@example.com",
+  "senha": "nova_senha"
+}
+
+### Deletar usuário
+DELETE http://localhost:3000/usuarios/1
+
+---
+
+### Buscar todas as tarefas
+GET http://localhost:3000/tarefas
+
+### Buscar tarefa por ID
+GET http://localhost:3000/tarefas/1
+
+### Criar nova tarefa
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "Estudar Node.js",
+  "descricao": "Ler sobre Express e PostgreSQL",
+  "status": "pendente",
+  "data": "2025-05-25",
+  "user_id": 1,
+  "categoria_id": 1
+}
+
+### Atualizar tarefa
+PUT http://localhost:3000/tarefas/1
+Content-Type: application/json
+
+{
+  "titulo": "Estudar Node.js com PostgreSQL",
+  "descricao": "Completar o projeto final",
+  "status": "em progresso",
+  "data": "2025-05-26",
+  "user_id": 1,
+  "categoria_id": 1
+}
+
+### Deletar tarefa
+DELETE http://localhost:3000/tarefas/1
