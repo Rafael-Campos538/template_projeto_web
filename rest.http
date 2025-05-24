@@ -10,7 +10,6 @@ Content-Type: application/json
 
 {
   "nome": "Rafael Campos",
-  "descricao": "essa aula é impossivel"
 }
 
 ### Atualizar categoria
@@ -19,7 +18,6 @@ Content-Type: application/json
 
 {
   "nome": "Rafael Campos"
-  "descricao": "Coisa impossivel"
 }
 
 ### Deletar categoria
