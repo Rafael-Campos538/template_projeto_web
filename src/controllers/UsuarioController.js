@@ -2,8 +2,8 @@ const UsuarioService = require("../services/UsuarioService");
 
 module.exports = {
   async index(req, res) {
-    const users = await UsuarioService.getAll();
-    res.json(users);
+    const usuarios = await UsuarioService.getAll();
+    res.json(usuarios);
   },
 
   async store(req, res) {

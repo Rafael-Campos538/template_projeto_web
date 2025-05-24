@@ -1,37 +1,36 @@
-const pool = require("../database");
+// src/services/CategoriaService.js
+const db = require("../database");
 
 module.exports = {
   async getAll() {
-    const result = await pool.query("SELECT * FROM categorias");
+    const result = await db.query("SELECT * FROM categories");
     return result.rows;
   },
 
   async getById(id) {
-    const result = await pool.query("SELECT * FROM categorias WHERE id = $1", [
+    const result = await db.query("SELECT * FROM categories WHERE id = $1", [
       id,
     ]);
     return result.rows[0];
   },
 
-  async create(data) {
-    const { nome } = data;
-    const result = await pool.query(
-      "INSERT INTO categorias (nome) VALUES ($1) RETURNING *",
+  async create({ nome }) {
+    const result = await db.query(
+      "INSERT INTO categories (nome) VALUES ($1) RETURNING *",
       [nome]
     );
     return result.rows[0];
   },
 
-  async update(id, data) {
-    const { nome } = data;
-    const result = await pool.query(
-      "UPDATE categorias SET nome = $1 WHERE id = $2 RETURNING *",
+  async update(id, { nome }) {
+    const result = await db.query(
+      "UPDATE categories SET nome = $1 WHERE id = $2 RETURNING *",
       [nome, id]
     );
     return result.rows[0];
   },
 
   async delete(id) {
-    await pool.query("DELETE FROM categorias WHERE id = $1", [id]);
+    await db.query("DELETE FROM categories WHERE id = $1", [id]);
   },
 };

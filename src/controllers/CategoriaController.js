@@ -1,3 +1,4 @@
+// src/controllers/CategoriaController.js
 const CategoriaService = require("../services/CategoriaService");
 
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
   },
 
   async store(req, res) {
-    const nova = await CategoriaService.create(req.body);
+    const nova = await CategoriaService.create(req.body); // req.body.nome
     res.status(201).json(nova);
   },
 

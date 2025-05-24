@@ -1,14 +1,25 @@
-CREATE TABLE IF NOT EXISTS categorias (
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  nome VARCHAR(100) NOT NULL
+  nome VARCHAR NOT NULL,
+  email VARCHAR UNIQUE NOT NULL,
+  senha VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tarefas (
+CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
-  nome TEXT NOT NULL,
+  nome VARCHAR NOT NULL
+);
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  titulo VARCHAR NOT NULL,
   descricao TEXT,
-  status TEXT DEFAULT 'pendente',
-  categorias_id INTEGER REFERENCES categorias(id),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  status VARCHAR NOT NULL,
+  data DATE,
+  user_id INTEGER REFERENCES users(id),
+  categoria_id INTEGER REFERENCES categories(id)
 );
