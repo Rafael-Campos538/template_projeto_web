@@ -5,7 +5,9 @@
 Este projeto consiste em uma API RESTful para gerenciar usuários, categorias e tarefas. Utiliza Node.js, Express, PostgreSQL e segue o padrão de arquitetura MVC. Os usuários podem cadastrar atividades, marcar como concluídas ou não e relacionar cada tarefa a uma categoria específica.
 
 ### Estrutura de Pastas:
- ```├── assets/
+ ```bash
+template_projeto_web/
+├── assets/
 │ └── ... (imagens, etc.)
 ├── documentos/
 │ └── ... (documentos de apoio, relatórios, etc.)
