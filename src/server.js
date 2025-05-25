@@ -1,15 +1,23 @@
-require("dotenv").config();
 const express = require("express");
 const app = express();
-
-const categoriaRoutes = require("./routes/categoriaRoutes");
-const usuarioRoutes = require("./routes/usuarioRoutes");
-const tarefaRoutes = require("./routes/tarefaRoutes");
+const dotenv = require("dotenv");
+dotenv.config();
 
 app.use(express.json());
 
-app.use("/categorias", categoriaRoutes);
+// Aqui ficam as rotas
+const usuarioRoutes = require("./routes/usuarioRoutes");
+const tarefaRoutes = require("./routes/tarefaRoutes");
+const categoriaRoutes = require("./routes/categoriaRoutes");
+
 app.use("/usuarios", usuarioRoutes);
 app.use("/tarefas", tarefaRoutes);
+app.use("/categorias", categoriaRoutes);
 
-app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+if (process.env.NODE_ENV !== "test") {
+  app.listen(3000, () => {
+    console.log("Servidor rodando na porta 3000");
+  });
+}
+
+module.exports = app;
