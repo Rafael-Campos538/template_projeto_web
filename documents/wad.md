@@ -3,11 +3,18 @@
 
 ## Introdução
 
-Este projeto é uma aplicação web que utiliza Node.js e PostgreSQL como tecnologias principais. A estrutura do sistema foi organizada com a separação clara de responsabilidades entre controladores, modelos, serviços e migrações. Trata de um sistema voltado especialmente para iniciantes e atividades acadêmicas, oferecendo uma base prática para o desenvolvimento backend com banco de dados relacional.
+Este projeto é uma aplicação web que utiliza **Node.js** como ambiente de execução e **PostgreSQL** como sistema gerenciador de banco de dados. A estrutura foi cuidadosamente organizada seguindo a arquitetura **MVC (Model-View-Controller)**, com separação clara de responsabilidades entre:
+
+- **Modelos** (definem as entidades do sistema),
+- **Controladores** (manipulam as requisições HTTP),
+- **Serviços** (implementam regras de negócio),
+- **Repositórios** (acessam diretamente o banco de dados),
+- **Rotas** (definem os endpoints disponíveis).
 
 ## Diagrama do Banco de Dados
 
-O banco de dados foi estruturado a partir de um modelo simples, incluindo, por exemplo, uma tabela de usuários. As migrações responsáveis pela criação das tabelas encontram-se no diretório `/migrations/scripts` e são organizadas em ordem cronológica de execução, conforme o timestamp presente no nome de cada arquivo.
+O banco de dados foi modelado de forma simples e eficiente, com o objetivo de armazenar informações relacionadas a **usuários**, **categorias** e **tarefas**.
+
 
 > O modelo relacional do banco de dados está representado na imagem abaixo:
 
@@ -16,30 +23,30 @@ O banco de dados foi estruturado a partir de um modelo simples, incluindo, por e
 > O modelo físico do banco de dados está representado abaixo:
 
 ``` 
-CREATE TABLE IF NOT EXISTS usuarios (
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  nome VARCHAR(100) NOT NULL,
-  email VARCHAR (70),
-  data_nascimento DATE
+  nome VARCHAR NOT NULL,
+  email VARCHAR UNIQUE NOT NULL,
+  senha VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tarefa (
+CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
-  titulo VARCHAR(200) NOT NULL,
-  descricao VARCHAR(500) NOT NULL,
-  data_criacao DATE,
-  data_entrega DATE,
-  concluido BOOLEAN NOT NULL,
-  usuarios_id UUID,
-  FOREIGN KEY (usuarios_id) REFERENCES usuarios(id)
+  nome VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS categoria (
+CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
-  nome VARCHAR(50) NOT NULL,
+  titulo VARCHAR NOT NULL,
   descricao TEXT,
-  data_criacao DATE,
-  tarefa_id INTEGER,
-  FOREIGN KEY (tarefa_id) REFERENCES tarefa(id)
+  status VARCHAR NOT NULL,
+  data DATE,
+  user_id INTEGER REFERENCES users(id),
+  categoria_id INTEGER REFERENCES categories(id)
 );
+
 ```
