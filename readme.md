@@ -1,45 +1,53 @@
 
-# Projeto Individual Módulo 02 - 2025
+# Gerenciador de Tarefas
 
 ### Descrição do Sistema:
-O sistema desenvolvido tem como objetivo auxiliar na organização pessoal por meio da criação e gerenciamento de tarefas. Usuários podem cadastrar atividades, definir prazos, marcar como concluídas ou não, e relacionar cada tarefa a uma categoria específica. As tabelas do banco refletem essa estrutura: usuarios, tarefa (vinculada ao usuário via UUID) e categoria (vinculada à tarefa). Tudo é controlado por meio de um processo digital simples, eficiente e voltado para o uso pessoal.
+Este projeto consiste em uma API RESTful para gerenciar usuários, categorias e tarefas. Utiliza Node.js, Express, PostgreSQL e segue o padrão de arquitetura MVC. Os usuários podem cadastrar atividades, marcar como concluídas ou não e relacionar cada tarefa a uma categoria específica.
 
 ### Estrutura de Pastas:
- ```
- PROJETO_INDIVIDUALMOD2
-├── 📁 assets
-│   └── modelo-branco.png
-├── 📁 config
-│   └── db.js
-├── 📁 controllers
-│   └── HomeController.js
-├── 📁 documentos
-|   ├── README.md
-|   └── wad.md
-├── 📁 migrations
-|   ├── 📁 scripts
-|   |   └── 202505091130_usuarios.sql
-│   ├── init.sql
-│   ├── runMigration.js
-|   └── runSQLScript.js
-├── 📁 models
-│   └── user.js
-├── 📁 node_modules
-├── 📁 routes
-│   └── index.js
-├── 📁 services
-│   └── userService.js
-├── 📁 styles
-│   └── .gitkeep
-├── 📁 tests
-│   └── example.test.js
-├── .env
-├── .env.example
-├── .gitignore
-├── package-lock.json
-├── package.json
-├── server.js
+ ```├── assets/
+│ └── ... (imagens, etc.)
+├── documentos/
+│ └── ... (documentos de apoio, relatórios, etc.)
 ├── rest.http
+├── src/
+│ ├── controllers/
+│ │ ├── CategoriaController.js
+│ │ ├── TaskController.js
+│ │ └── UserController.js
+│ │
+│ ├── database/
+│ │ ├── db.js
+│ │ └── connection.js
+│ │
+│ ├── migrations/
+│ │ └── init.sql
+│ │
+│ ├── models/
+│ │ ├── Categoria.js
+│ │ ├── Task.js
+│ │ └── User.js
+│ │
+│ ├── repositories/
+│ │ ├── CategoriaRepository.js
+│ │ ├── TaskRepository.js
+│ │ └── UserRepository.js
+│ │
+│ ├── routes/
+│ │ ├── categoriaRoutes.js
+│ │ ├── taskRoutes.js
+│ │ └── userRoutes.js
+│ │
+│ ├── services/
+│ │ ├── CategoriaService.js
+│ │ ├── TaskService.js
+│ │ └── UserService.js
+│ │
+│ ├── runMigrations.js
+│ ├── server.js
+│ └── .env
+│
+└── package.json
 ``` 
 
 ### Como executar o projeto localmente:
