@@ -18,12 +18,9 @@ template_projeto_web/
 │ │ ├── TaskController.js
 │ │ └── UserController.js
 │ │
-│ ├── database/
-│ │ ├── db.js
-│ │ └── connection.js
-│ │
 │ ├── migrations/
 │ │ └── init.sql
+│ │ └── runMigrations.js
 │ │
 │ ├── models/
 │ │ ├── Categoria.js
@@ -45,11 +42,18 @@ template_projeto_web/
 │ │ ├── TaskService.js
 │ │ └── UserService.js
 │ │
-│ ├── runMigrations.js
+│ ├── tests/
+│ │ ├── categoria.test.js
+│ │ ├── task.test.js
+│ │ └── user.test.js
+│ │
+│ ├── views/
+│ │ └── docs.html
+│ │
+│ ├── database.js
 │ ├── server.js
-│ └── .env
-│
-└── package.json
+│ ├── .env
+│ └── package.json
 ``` 
 
 ### Como executar o projeto localmente:
