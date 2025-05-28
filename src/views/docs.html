@@ -1,67 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
-  <title>Documentação da API</title>
+  <title>Login - Gerenciador de Tarefas</title>
   <style>
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      max-width: 800px;
-      margin: 2rem auto;
-      line-height: 1.6
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 5rem auto;
+      padding: 2rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
-
-    code {
-      background: #f4f4f4;
-      padding: 2px 4px;
-      border-radius: 3px
+    h1 {
+      text-align: center;
     }
-
-    h2 {
-      margin-top: 2.2rem
+    form {
+      margin-top: 2rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.5rem;
+      background: #eee;
+      border: none;
+      cursor: pointer;
     }
   </style>
 </head>
-
 <body>
-  <h1>Mini API Node com SQLite</h1>
+  <h1>Entrar ou Cadastrar</h1>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="senha" placeholder="Senha" required>
+    <button type="submit" class="btn">Entrar</button>
+  </form>
 
-  <p>Esta aplicação expõe dois conjuntos de endpoints REST em <code>/api/users</code> e <code>/api/orders</code>. Todos
-    aceitam e devolvem JSON.</p>
+  <form id="registerForm">
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="email" id="emailRegister" placeholder="Email" required>
+    <input type="password" id="senhaRegister" placeholder="Senha" required>
+    <button type="submit" class="btn">Cadastrar</button>
+  </form>
 
-  <h2>1. Users</h2>
-  <ul>
-    <li><strong>GET /api/users</strong> – lista todos os usuários.</li>
-    <li><strong>POST /api/users</strong> – cria usuário.<br>
-      Exemplo de corpo: <code>{"name":"Ana","email":"ana@exemplo.com"}</code></li>
-    <li><strong>GET /api/users/:id</strong> – detalhe do usuário.</li>
-    <li><strong>PUT /api/users/:id</strong> – atualiza usuário.</li>
-    <li><strong>DELETE /api/users/:id</strong> – remove usuário.</li>
-    <li><strong>GET /api/users-totals</strong> – join que devolve cada usuário com a soma de preços de seus pedidos.
-    </li>
-  </ul>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      // Simula login bem-sucedido
+      window.location.href = '/painel.html';
+    });
 
-  <h2>2. Orders</h2>
-  <ul>
-    <li><strong>GET /api/orders</strong> – lista todos os pedidos.</li>
-    <li><strong>POST /api/orders</strong> – cria pedido.<br>
-      Exemplo: <code>{"user_id":1,"product":"Livro","price":49.90}</code></li>
-    <li><strong>GET /api/orders/:id</strong> – detalhe do pedido.</li>
-    <li><strong>PUT /api/orders/:id</strong> – atualiza pedido.</li>
-    <li><strong>DELETE /api/orders/:id</strong> – remove pedido.</li>
-    <li><strong>GET /api/orders-with-user</strong> – join que traz cada pedido com nome e e-mail do usuário associado.
-    </li>
-  </ul>
-
-  <h2>Exemplos de uso via <em>curl</em></h2>
-  <pre>
-curl -X POST http://localhost:3000/api/users \
-     -H "Content-Type: application/json" \
-     -d '{"name":"Ana","email":"ana@exemplo.com"}'
-
-curl http://localhost:3000/api/users-totals
-  </pre>
+    document.getElementById('registerForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome: nome.value,
+          email: emailRegister.value,
+          senha: senhaRegister.value
+        })
+      });
+      alert('Usuário cadastrado com sucesso!');
+    });
+  </script>
 </body>
-
 </html>
