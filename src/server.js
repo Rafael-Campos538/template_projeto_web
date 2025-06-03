@@ -6,13 +6,13 @@ dotenv.config();
 app.use(express.json());
 
 // Aqui ficam as rotas
+const categoriaRoutes = require("./routes/categoriaRoutes");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const tarefaRoutes = require("./routes/tarefaRoutes");
-const categoriaRoutes = require("./routes/categoriaRoutes");
 
+app.use("/categorias", categoriaRoutes);
 app.use("/usuarios", usuarioRoutes);
 app.use("/tarefas", tarefaRoutes);
-app.use("/categorias", categoriaRoutes);
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => {

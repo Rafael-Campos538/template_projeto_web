@@ -23,7 +23,8 @@ Content-Type: application/json
 ### Deletar categoria
 DELETE http://localhost:3000/categorias/1
 
----
+------------------------------------------
+
 
 ### Buscar todos os usuários
 GET http://localhost:3000/usuarios
@@ -54,7 +55,7 @@ Content-Type: application/json
 ### Deletar usuário
 DELETE http://localhost:3000/usuarios/1
 
----
+------------------------------------------
 
 ### Buscar todas as tarefas
 GET http://localhost:3000/tarefas
