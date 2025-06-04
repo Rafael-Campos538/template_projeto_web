@@ -1,21 +1,11 @@
 const fs = require("fs");
 const path = require("path");
-const { Pool } = require("pg");
 require("dotenv").config();
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+const pool = require("../database");
+
 const runSQLScript = async () => {
-  const scriptFiles = [
-    "init.sql"
-  ];
+  const scriptFiles = ["init.sql"];
+
   try {
     for (const file of scriptFiles) {
       const filePath = path.join(__dirname, file);
@@ -30,4 +20,5 @@ const runSQLScript = async () => {
     await pool.end();
   }
 };
+
 runSQLScript();
