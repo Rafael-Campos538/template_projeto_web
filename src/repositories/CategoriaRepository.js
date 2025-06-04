@@ -1,45 +1,37 @@
 const db = require("../database");
-const Categoria = require("../models/Categoria");
 
-class CategoriaRepository {
-  async findAll() {
-    const result = await db.query("SELECT id, nome FROM categorias");
-    return result.rows.map((row) => new Categoria(row.id, row.nome));
-  }
+module.exports = {
+  async getAll() {
+    const result = await db.query("SELECT * FROM categories");
+    return result.rows;
+  },
 
-  async findById(id) {
+  async getById(id) {
+    const result = await db.query("SELECT * FROM categories WHERE id = $1", [
+      id,
+    ]);
+    return result.rows[0];
+  },
+
+  async create(dataCategoria) {
+    const { nome } = dataCategoria;
     const result = await db.query(
-      "SELECT id, nome FROM categorias WHERE id = $1",
-      [id]
-    );
-    if (result.rows.length === 0) return null;
-    const { id: catId, nome } = result.rows[0];
-    return new Categoria(catId, nome);
-  }
-
-  async create(categoria) {
-    const { nome } = categoria;
-    const result = await db.query(
-      "INSERT INTO categorias (nome) VALUES ($1) RETURNING *",
+      "INSERT INTO categories (nome) VALUES ($1) RETURNING *",
       [nome]
     );
-    const { id, nome: nomeRet } = result.rows[0];
-    return new Categoria(id, nomeRet);
-  }
+    return result.rows[0];
+  },
 
-  async update(id, categoria) {
-    const { nome } = categoria;
+  async update(id, dataCategoria) {
+    const { nome } = dataCategoria;
     const result = await db.query(
-      "UPDATE categorias SET nome = $1 WHERE id = $2 RETURNING *",
+      `UPDATE categories SET nome = $1 WHERE id = $2 RETURNING *`,
       [nome, id]
     );
-    const { id: catId, nome: nomeRet } = result.rows[0];
-    return new Categoria(catId, nomeRet);
-  }
+    return result.rows[0];
+  },
 
   async delete(id) {
-    await db.query("DELETE FROM categorias WHERE id = $1", [id]);
-  }
-}
-
-module.exports = new CategoriaRepository();
+    await db.query("DELETE FROM categories WHERE id = $1", [id]);
+  },
+};

@@ -1,10 +1,11 @@
 const express = require("express");
-const router = express.Router();
 const TarefaController = require("../controllers/TarefaController");
 
-router.get("/", TarefaController.index);
-router.get("/:id", TarefaController.show);
-router.post("/", TarefaController.store);
+const router = express.Router();
+
+router.get("/", TarefaController.getAll);
+router.get("/:id", TarefaController.getById);
+router.post("/", TarefaController.create);
 router.put("/:id", TarefaController.update);
 router.delete("/:id", TarefaController.delete);
 

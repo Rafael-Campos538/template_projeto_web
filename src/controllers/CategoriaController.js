@@ -1,34 +1,55 @@
-// src/controllers/CategoriaController.js
 const CategoriaService = require("../services/CategoriaService");
 
 module.exports = {
-  async index(req, res) {
-    const categorias = await CategoriaService.getAll();
-    res.json(categorias);
+  async getAll(req, res) {
+    try {
+      const categorias = await CategoriaService.getAll();
+      res.json(categorias);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   },
 
-  async show(req, res) {
-    const { id } = req.params;
-    const categoria = await CategoriaService.getById(id);
-    if (!categoria)
-      return res.status(404).json({ error: "Categoria não encontrada" });
-    res.json(categoria);
+  async getById(req, res) {
+    try {
+      const id = parseInt(req.params.id);
+      const categoria = await CategoriaService.getById(id);
+      if (!categoria)
+        return res.status(404).json({ message: "Categoria não encontrada" });
+      res.json(categoria);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   },
 
-  async store(req, res) {
-    const nova = await CategoriaService.create(req.body); // req.body.nome
-    res.status(201).json(nova);
+  async create(req, res) {
+    try {
+      const novaCategoria = await CategoriaService.create(req.body);
+      res.status(201).json(novaCategoria);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   },
 
   async update(req, res) {
-    const { id } = req.params;
-    const atualizada = await CategoriaService.update(id, req.body);
-    res.json(atualizada);
+    try {
+      const id = parseInt(req.params.id);
+      const categoriaAtualizada = await CategoriaService.update(id, req.body);
+      if (!categoriaAtualizada)
+        return res.status(404).json({ message: "Categoria não encontrada" });
+      res.json(categoriaAtualizada);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   },
 
   async delete(req, res) {
-    const { id } = req.params;
-    await CategoriaService.delete(id);
-    res.status(204).send();
+    try {
+      const id = parseInt(req.params.id);
+      await CategoriaService.delete(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   },
 };

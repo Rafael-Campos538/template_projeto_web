@@ -1,36 +1,30 @@
-// src/services/CategoriaService.js
-const db = require("../database");
+const CategoriaRepository = require("../repositories/CategoriaRepository");
+const Joi = require("joi");
+
+const categoriaSchema = Joi.object({
+  nome: Joi.string().required(),
+});
 
 module.exports = {
   async getAll() {
-    const result = await db.query("SELECT * FROM categories");
-    return result.rows;
+    return await CategoriaRepository.getAll();
   },
 
   async getById(id) {
-    const result = await db.query("SELECT * FROM categories WHERE id = $1", [
-      id,
-    ]);
-    return result.rows[0];
+    return await CategoriaRepository.getById(id);
   },
 
-  async create({ nome }) {
-    const result = await db.query(
-      "INSERT INTO categories (nome) VALUES ($1) RETURNING *",
-      [nome]
-    );
-    return result.rows[0];
+  async create(dataCategoria) {
+    await categoriaSchema.validateAsync(dataCategoria);
+    return await CategoriaRepository.create(dataCategoria);
   },
 
-  async update(id, { nome }) {
-    const result = await db.query(
-      "UPDATE categories SET nome = $1 WHERE id = $2 RETURNING *",
-      [nome, id]
-    );
-    return result.rows[0];
+  async update(id, dataCategoria) {
+    await categoriaSchema.validateAsync(dataCategoria);
+    return await CategoriaRepository.update(id, dataCategoria);
   },
 
   async delete(id) {
-    await db.query("DELETE FROM categories WHERE id = $1", [id]);
+    return await CategoriaRepository.delete(id);
   },
 };

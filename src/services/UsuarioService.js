@@ -1,17 +1,32 @@
-const db = require("../database");
+const UsuarioRepository = require("../repositories/UsuarioRepository");
+const Joi = require("joi");
+
+const usuarioSchema = Joi.object({
+  nome: Joi.string().required(),
+  email: Joi.string().email().required(),
+  senha: Joi.string().required(),
+});
 
 module.exports = {
   async getAll() {
-    const result = await db.query("SELECT * FROM users");
-    return result.rows;
+    return await UsuarioRepository.getAll();
   },
 
-  async create(data) {
-    const { nome, email, senha } = data;
-    const result = await db.query(
-      "INSERT INTO users (nome, email, senha) VALUES ($1, $2, $3) RETURNING *",
-      [nome, email, senha]
-    );
-    return result.rows[0];
+  async getById(id) {
+    return await UsuarioRepository.getById(id);
+  },
+
+  async create(dataUsuario) {
+    await usuarioSchema.validateAsync(dataUsuario);
+    return await UsuarioRepository.create(dataUsuario);
+  },
+
+  async update(id, dataUsuario) {
+    await usuarioSchema.validateAsync(dataUsuario);
+    return await UsuarioRepository.update(id, dataUsuario);
+  },
+
+  async delete(id) {
+    return await UsuarioRepository.delete(id);
   },
 };
