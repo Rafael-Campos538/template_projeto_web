@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Cadastro</title></head>
+<body>
+  <h1>Cadastro</h1>
+
+  <% if (typeof error !== 'undefined') { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+
+<form action="/pages/cadastro" method="POST">
+      Nome: <input type="text" name="nome" required><br>
+      Email: <input type="email" name="email" required><br>
+      Senha: <input type="password" name="senha" required><br>
+      <button type="submit">Cadastrar</button>
+  </form>
+  <a href="/pages/login">Voltar ao login</a>
+</body>
+</html>

@@ -11,6 +11,13 @@ module.exports = {
     return result.rows[0];
   },
 
+  async getByEmail(email) {
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+    return result.rows[0];
+  },
+
   async create(dataUsuario) {
     const { nome, email, senha } = dataUsuario;
     const result = await db.query(

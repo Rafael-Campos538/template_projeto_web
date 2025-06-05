@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Tarefas</title></head>
+<body>
+<h1>Suas Tarefas</h1>
+
+<form action="/tasks" method="POST">
+    <input type="hidden" name="userId" value="<%= userId %>">
+    Descrição: <input type="text" name="descricao" required>
+    <button type="submit">Adicionar</button>
+</form>
+
+<ul>
+    <% if (typeof tarefas !== 'undefined') { %>
+        <% tarefas.forEach(t => { %>
+            <li><%= t.descricao %></li>
+        <% }); %>
+    <% } %>
+</ul>
+
+</body>
+</html>

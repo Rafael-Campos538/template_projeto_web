@@ -1,4 +1,6 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
 const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
@@ -10,9 +12,30 @@ const categoriaRoutes = require("./routes/categoriaRoutes");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const tarefaRoutes = require("./routes/tarefaRoutes");
 
+const usuarioController = require("./controllers/UsuarioController");
+//usuarioController.login(req, res);
+const tarefaController = require("./controllers/TarefaController");
+
+
+
 app.use("/categorias", categoriaRoutes);
 app.use("/usuarios", usuarioRoutes);
 app.use("/tarefas", tarefaRoutes);
+
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => res.redirect("/login"));
+
+app.get("/pages/login", (req, res) => res.render("/pages/login"));
+app.post("/pages/login", (req, res) => usuarioController.login(req, res));
+
+app.get("/pages/cadastro", (req, res) => res.render("/pages/cadastro"));
+app.post("/pages/cadastro", (req, res) => usuarioController.cadastrar(req, res));
+
+app.get("/pages/tasks", (req, res) => tarefaController.listar(req, res));
+app.post("/pages/tasks", (req, res) => tarefaController.adicionar(req, res));
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => {

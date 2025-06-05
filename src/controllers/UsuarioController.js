@@ -52,4 +52,24 @@ module.exports = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  async cadastrar(req, res) {
+    try {
+      const { nome, email, senha } = req.body;
+      await UsuarioService.create({ nome, email, senha });
+      res.redirect("/pages/login");
+    } catch (error) {
+      res.render("pages/cadastro", { error: error.message });
+    }
+  },  
+
+  async login(req, res) {
+    try {
+      const { email, senha } = req.body;
+      await UsuarioService.login(email, senha);
+      res.redirect("/pages/tasks");
+    } catch (error) {
+      res.render("pages/login", { error: "Credenciais inválidas" });
+    }
+  },
 };
