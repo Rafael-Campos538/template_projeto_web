@@ -24,14 +24,15 @@ app.use("/tarefas", tarefaRoutes);
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views", "pages"));
+app.use(express.static(path.join(__dirname, "src", "public")));
 
 app.get("/", (req, res) => res.redirect("/login"));
 
-app.get("/pages/login", (req, res) => res.render("/pages/login"));
+app.get("/pages/login", (req, res) => res.render("login"));
 app.post("/pages/login", (req, res) => usuarioController.login(req, res));
 
-app.get("/pages/cadastro", (req, res) => res.render("/pages/cadastro"));
+app.get("/pages/cadastro", (req, res) => res.render("cadastro"));
 app.post("/pages/cadastro", (req, res) => usuarioController.cadastrar(req, res));
 
 app.get("/pages/tasks", (req, res) => tarefaController.listar(req, res));
