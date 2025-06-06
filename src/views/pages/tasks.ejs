@@ -97,13 +97,15 @@
         <h2><%= categoria.nome %></h2>
         <button onclick="editarCategoria('<%= categoria.id %>')">Editar</button>
       </div>
-      <form id="form-categoria-<%= categoria.id %>" action="/pages/categorias/<%= categoria.id %>?_method=PUT" method="POST" style="display:none;">
+      <!-- Formulário de edição -->
+      <form id="form-categoria-<%= categoria.id %>" action="/categorias/<%= categoria.id %>?_method=PUT" method="POST" style="display:none;">
         <input type="text" name="nome" value="<%= categoria.nome %>">
         <button type="submit">Salvar</button>
         <button type="button" class="cancel" onclick="cancelarEdicaoCategoria('<%= categoria.id %>')">Cancelar</button>
-        <form action="/pages/categorias/<%= categoria.id %>?_method=DELETE" method="POST" style="display:inline;">
-          <button type="submit" class="delete">Excluir</button>
-        </form>
+      </form>
+      <!-- Formulário de exclusão (fora do form de edição, só aparece no modo edição) -->
+      <form id="delete-categoria-<%= categoria.id %>" action="/categorias/<%= categoria.id %>?_method=DELETE" method="POST" style="display:none; margin-top:0.5em;">
+        <button type="submit" class="delete">Excluir</button>
       </form>
 
       <% if (categoria.tarefas.length === 0) { %>
@@ -146,9 +148,11 @@
     function editarCategoria(id) {
       document.getElementById('view-categoria-' + id).style.display = 'none';
       document.getElementById('form-categoria-' + id).style.display = 'block';
+      document.getElementById('delete-categoria-' + id).style.display = 'block';
     }
     function cancelarEdicaoCategoria(id) {
       document.getElementById('form-categoria-' + id).style.display = 'none';
+      document.getElementById('delete-categoria-' + id).style.display = 'none';
       document.getElementById('view-categoria-' + id).style.display = 'block';
     }
 
