@@ -49,6 +49,13 @@
       background-color: #e53935;
       margin-left: 0.5em;
     }
+    .task-actions {
+      margin-top: 0.5em;
+    }
+    .task-actions button {
+      margin-right: 0.5em;
+      margin-top: 0.5em;
+    }
   </style>
 </head>
 <body>
@@ -103,9 +110,9 @@
         <button type="submit">Salvar</button>
         <button type="button" class="cancel" onclick="cancelarEdicaoCategoria('<%= categoria.id %>')">Cancelar</button>
       </form>
-      <!-- Formulário de exclusão (fora do form de edição, só aparece no modo edição) -->
+      <!-- Formulário de exclusão (separado) -->
       <form id="delete-categoria-<%= categoria.id %>" action="/categorias/<%= categoria.id %>?_method=DELETE" method="POST" style="display:none; margin-top:0.5em;">
-        <button type="submit" class="delete">Excluir</button>
+        <button type="submit" class="delete" onclick="return confirm('Tem certeza que deseja excluir esta categoria? Todas as tarefas desta categoria também serão excluídas.')">Excluir</button>
       </form>
 
       <% if (categoria.tarefas.length === 0) { %>
@@ -117,10 +124,12 @@
               <div id="view-tarefa-<%= tarefa.id %>">
                 <strong><%= tarefa.titulo %></strong> - <%= tarefa.descricao %><br>
                 <small>Status: <%= tarefa.status %> | Data: <%= new Date(tarefa.data).toLocaleDateString() %></small>
-                <br>
-                <button onclick="editarTarefa('<%= tarefa.id %>')">Editar</button>
+                <div class="task-actions">
+                  <button onclick="editarTarefa('<%= tarefa.id %>')">Editar</button>
+                </div>
               </div>
 
+              <!-- Formulário de edição da tarefa -->
               <form id="form-tarefa-<%= tarefa.id %>" action="/pages/tasks/<%= tarefa.id %>?_method=PUT" method="POST" style="display:none; margin-top: 1em;">
                 <input type="text" name="titulo" value="<%= tarefa.titulo %>" required>
                 <textarea name="descricao"><%= tarefa.descricao %></textarea>
@@ -131,11 +140,11 @@
                 </select>
                 <input type="date" name="data" value="<%= tarefa.data.toISOString().substring(0,10) %>" required>
                 <input type="hidden" name="categoriaId" value="<%= categoria.id %>">
-                <button type="submit">Salvar</button>
-                <button type="button" class="cancel" onclick="cancelarEdicaoTarefa('<%= tarefa.id %>')">Cancelar</button>
-                <form action="/pages/tasks/<%= tarefa.id %>?_method=DELETE" method="POST" style="display:inline;">
-                  <button type="submit" class="delete">Excluir</button>
-                </form>
+                <div class="task-actions">
+                  <button type="submit">Salvar</button>
+                  <button type="button" class="cancel" onclick="cancelarEdicaoTarefa('<%= tarefa.id %>')">Cancelar</button>
+                  <button type="button" class="delete" onclick="excluirTarefa('<%= tarefa.id %>')">Excluir</button>
+                </div>
               </form>
             </li>
           <% }) %>
@@ -163,6 +172,18 @@
     function cancelarEdicaoTarefa(id) {
       document.getElementById('form-tarefa-' + id).style.display = 'none';
       document.getElementById('view-tarefa-' + id).style.display = 'block';
+    }
+
+    // Nova função para excluir tarefa
+    function excluirTarefa(id) {
+      if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+        // Criar um formulário temporário para fazer o DELETE
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/pages/tasks/${id}?_method=DELETE`;
+        document.body.appendChild(form);
+        form.submit();
+      }
     }
   </script>
 </body>

@@ -31,15 +31,18 @@ module.exports = {
   },
 
   async update(id, dataCategoria) {
-    const { nome } = dataCategoria;
+    const { nome, user_id } = dataCategoria;
     const result = await db.query(
-      `UPDATE categories SET nome = $1 WHERE id = $2 RETURNING *`,
-      [nome, id]
+      `UPDATE categories SET nome = $1, user_id = $2 WHERE id = $3 RETURNING *`,
+      [nome, user_id, id]
     );
     return result.rows[0];
   },
 
   async delete(id) {
+    // Primeiro deleta todas as tarefas relacionadas à categoria
+    await db.query("DELETE FROM tasks WHERE categoria_id = $1", [id]);
+    // Depois deleta a categoria
     await db.query("DELETE FROM categories WHERE id = $1", [id]);
   },
 };

@@ -81,6 +81,12 @@ module.exports = {
       const { id } = req.params;
       const data = req.body;
 
+      // Buscar a tarefa atual para obter o userId
+      const tarefaAtual = await TarefaService.findById(id);
+      if (!tarefaAtual) {
+        return res.status(404).json({ error: "Tarefa não encontrada" });
+      }
+
       // Converter campos se necessário
       if (data.userId) {
         data.user_id = parseInt(data.userId);
@@ -95,25 +101,70 @@ module.exports = {
       }
 
       const tarefaAtualizada = await TarefaService.update(id, data);
-      if (!tarefaAtualizada)
-        return res.status(404).json({ error: "Tarefa não encontrada" });
-      res.json(tarefaAtualizada);
+
+      // Se é uma requisição de API, retorna JSON
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.json(tarefaAtualizada);
+      }
+
+      // Se é do formulário, redireciona para a página de tarefas
+      res.redirect(`/pages/tasks?usuarioId=${tarefaAtual.user_id}`);
     } catch (error) {
       console.error("Erro ao atualizar tarefa:", error);
-      res
-        .status(400)
-        .json({ error: error.message || "Erro ao atualizar tarefa" });
+
+      // Se é uma requisição de API, retorna JSON
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res
+          .status(400)
+          .json({ error: error.message || "Erro ao atualizar tarefa" });
+      }
+
+      // Se é do formulário, redireciona com erro
+      res.status(400).send(`Erro ao atualizar tarefa: ${error.message}`);
     }
   },
 
   async delete(req, res) {
     try {
       const { id } = req.params;
+
+      // Buscar a tarefa atual para obter o userId antes de deletar
+      const tarefaAtual = await TarefaService.findById(id);
+      if (!tarefaAtual) {
+        return res.status(404).json({ error: "Tarefa não encontrada" });
+      }
+
       await TarefaService.delete(id);
-      res.status(204).send();
+
+      // Se é uma requisição de API, retorna 204
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.status(204).send();
+      }
+
+      // Se é do formulário, redireciona para a página de tarefas
+      res.redirect(`/pages/tasks?usuarioId=${tarefaAtual.user_id}`);
     } catch (error) {
       console.error("Erro ao deletar tarefa:", error);
-      res.status(500).json({ error: "Erro ao deletar tarefa" });
+
+      // Se é uma requisição de API, retorna JSON
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.status(500).json({ error: "Erro ao deletar tarefa" });
+      }
+
+      // Se é do formulário, redireciona com erro
+      res.status(500).send(`Erro ao deletar tarefa: ${error.message}`);
     }
   },
 

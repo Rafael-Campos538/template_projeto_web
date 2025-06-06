@@ -57,23 +57,77 @@ module.exports = {
   async update(req, res) {
     try {
       const id = parseInt(req.params.id);
-      console.log(req.body);
-      const categoriaAtualizada = await CategoriaService.update(id, req.body);
-      if (!categoriaAtualizada)
+      const { nome } = req.body;
+
+      // Buscar a categoria atual para obter o user_id
+      const categoriaAtual = await CategoriaService.getById(id);
+      if (!categoriaAtual) {
         return res.status(404).json({ message: "Categoria não encontrada" });
-      res.json(categoriaAtualizada);
+      }
+
+      const categoriaAtualizada = await CategoriaService.update(id, { nome });
+
+      // Se é uma requisição de API, retorna JSON
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.json(categoriaAtualizada);
+      }
+
+      // Se é do formulário, redireciona para a página de tarefas
+      res.redirect(`/pages/tasks?usuarioId=${categoriaAtual.user_id}`);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      console.error("Erro ao atualizar categoria:", error);
+
+      // Se é uma requisição de API, retorna JSON
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.status(400).json({ error: error.message });
+      }
+
+      // Se é do formulário, redireciona com erro
+      res.status(400).send(`Erro ao atualizar categoria: ${error.message}`);
     }
   },
 
   async delete(req, res) {
     try {
       const id = parseInt(req.params.id);
+
+      // Buscar a categoria atual para obter o user_id antes de deletar
+      const categoriaAtual = await CategoriaService.getById(id);
+      if (!categoriaAtual) {
+        return res.status(404).json({ message: "Categoria não encontrada" });
+      }
+
       await CategoriaService.delete(id);
-      res.status(204).send();
+
+      // Se é uma requisição de API, retorna 204
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.status(204).send();
+      }
+
+      // Se é do formulário, redireciona para a página de tarefas
+      res.redirect(`/pages/tasks?usuarioId=${categoriaAtual.user_id}`);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error("Erro ao deletar categoria:", error);
+
+      // Se é uma requisição de API, retorna JSON
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes("application/json")
+      ) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      // Se é do formulário, redireciona com erro
+      res.status(500).send(`Erro ao deletar categoria: ${error.message}`);
     }
   },
 };

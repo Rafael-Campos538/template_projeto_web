@@ -29,19 +29,59 @@ module.exports = {
   },
 
   async update(id, data) {
-    const {
-      titulo,
-      descricao,
-      status,
-      data: dataTarefa,
-      user_id,
-      categoria_id,
-    } = data;
-    const result = await db.query(
-      `UPDATE tasks SET titulo = $1, descricao = $2, status = $3, data = $4, user_id = $5, categoria_id = $6 
-       WHERE id = $7 RETURNING *`,
-      [titulo, descricao, status, dataTarefa, user_id, categoria_id, id]
-    );
+    // Constrói a query dinamicamente baseada nos campos fornecidos
+    const campos = [];
+    const valores = [];
+    let paramIndex = 1;
+
+    if (data.titulo !== undefined) {
+      campos.push(`titulo = $${paramIndex}`);
+      valores.push(data.titulo);
+      paramIndex++;
+    }
+
+    if (data.descricao !== undefined) {
+      campos.push(`descricao = $${paramIndex}`);
+      valores.push(data.descricao);
+      paramIndex++;
+    }
+
+    if (data.status !== undefined) {
+      campos.push(`status = $${paramIndex}`);
+      valores.push(data.status);
+      paramIndex++;
+    }
+
+    if (data.data !== undefined) {
+      campos.push(`data = $${paramIndex}`);
+      valores.push(data.data);
+      paramIndex++;
+    }
+
+    if (data.user_id !== undefined) {
+      campos.push(`user_id = $${paramIndex}`);
+      valores.push(data.user_id);
+      paramIndex++;
+    }
+
+    if (data.categoria_id !== undefined) {
+      campos.push(`categoria_id = $${paramIndex}`);
+      valores.push(data.categoria_id);
+      paramIndex++;
+    }
+
+    if (campos.length === 0) {
+      throw new Error("Nenhum campo para atualizar");
+    }
+
+    // Adiciona o ID como último parâmetro
+    valores.push(id);
+
+    const query = `UPDATE tasks SET ${campos.join(
+      ", "
+    )} WHERE id = $${paramIndex} RETURNING *`;
+
+    const result = await db.query(query, valores);
     return result.rows[0];
   },
 
@@ -49,7 +89,6 @@ module.exports = {
     await db.query("DELETE FROM tasks WHERE id = $1", [id]);
   },
 
-  // MÉTODO FALTANTE - Adicionar este método
   async getByCategoriaId(categoriaId) {
     const result = await db.query(
       "SELECT * FROM tasks WHERE categoria_id = $1",
