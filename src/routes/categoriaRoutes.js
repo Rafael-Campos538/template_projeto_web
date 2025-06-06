@@ -9,4 +9,7 @@ router.post("/", CategoriaController.create);
 router.put("/:id", CategoriaController.update);
 router.delete("/:id", CategoriaController.delete);
 
+//router.get("/pages/tasks", CategoriaController.renderCategoriasPage);
+//router.post("/pages/tasks", CategoriaController.createFromForm);
+
 module.exports = router;

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><title>Tarefas</title></head>
+<head><title>Gerenciador de Tarefas</title></head>
 <body>
 <h1>Suas Tarefas</h1>
 
-<form action="/tasks" method="POST">
+<form action="/pages/tasks" method="POST">
     <input type="hidden" name="userId" value="<%= userId %>">
-    Descrição: <input type="text" name="descricao" required>
+    Categoria: <input type="text" name="categoria" required>
     <button type="submit">Adicionar</button>
 </form>
 
 <ul>
-    <% if (typeof tarefas !== 'undefined') { %>
-        <% tarefas.forEach(t => { %>
+    <% if (typeof categoria !== 'undefined') { %>
+        <% categorias.forEach(t => { %>
             <li><%= t.descricao %></li>
         <% }); %>
     <% } %>
@@ -20,3 +20,4 @@
 
 </body>
 </html>
+

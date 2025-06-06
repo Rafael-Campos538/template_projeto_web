@@ -74,7 +74,7 @@ Content-Type: application/json
   "status": "pendente",
   "data": "2025-05-25",
   "user_id": 1,
-  "categoria_id": 1
+  "categoria_id": 2
 }
 
 ### Atualizar tarefa

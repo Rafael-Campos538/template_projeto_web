@@ -3,11 +3,12 @@ const Joi = require("joi");
 
 const categoriaSchema = Joi.object({
   nome: Joi.string().required(),
+  user_id: Joi.number().integer().required(), // adicionamos validação do user_id
 });
 
 module.exports = {
-  async getAll() {
-    return await CategoriaRepository.getAll();
+  async getAllByUser(userId) {
+    return await CategoriaRepository.getAllByUser(userId);
   },
 
   async getById(id) {

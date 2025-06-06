@@ -10,7 +10,6 @@ module.exports = {
   },
 
   async create(data) {
-    // 'data' pode conter campo 'data' (data da tarefa)
     return await TarefaRepository.create(data);
   },
 
@@ -20,5 +19,9 @@ module.exports = {
 
   async delete(id) {
     await TarefaRepository.delete(id);
+  },
+
+  async getByCategoriaId(categoriaId) {
+    return await TarefaRepository.getByCategoriaId(categoriaId);
   },
 };

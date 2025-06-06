@@ -6,6 +6,14 @@ module.exports = {
     return result.rows;
   },
 
+  async getAllByUser(userId) {
+    const result = await db.query(
+      "SELECT * FROM categories WHERE user_id = $1",
+      [userId]
+    );
+    return result.rows;
+  },
+
   async getById(id) {
     const result = await db.query("SELECT * FROM categories WHERE id = $1", [
       id,
@@ -14,10 +22,10 @@ module.exports = {
   },
 
   async create(dataCategoria) {
-    const { nome } = dataCategoria;
+    const { nome, user_id } = dataCategoria;
     const result = await db.query(
-      "INSERT INTO categories (nome) VALUES ($1) RETURNING *",
-      [nome]
+      "INSERT INTO categories (nome, user_id) VALUES ($1, $2) RETURNING *",
+      [nome, user_id]
     );
     return result.rows[0];
   },

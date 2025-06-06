@@ -14,9 +14,7 @@ const tarefaRoutes = require("./routes/tarefaRoutes");
 
 const usuarioController = require("./controllers/UsuarioController");
 //usuarioController.login(req, res);
-const tarefaController = require("./controllers/TarefaController");
-
-
+const tarefaController = require("../src/controllers/TarefaController");
 
 app.use("/categorias", categoriaRoutes);
 app.use("/usuarios", usuarioRoutes);
@@ -35,8 +33,8 @@ app.post("/pages/login", (req, res) => usuarioController.login(req, res));
 app.get("/pages/cadastro", (req, res) => res.render("cadastro"));
 app.post("/pages/cadastro", (req, res) => usuarioController.cadastrar(req, res));
 
-app.get("/pages/tasks", (req, res) => tarefaController.listar(req, res));
-app.post("/pages/tasks", (req, res) => tarefaController.adicionar(req, res));
+app.get("/pages/tasks", (req, res) => tarefaController.renderTasksPage(req, res));
+app.post("/pages/tasks", (req, res) => tarefaController.create(req, res));
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => {

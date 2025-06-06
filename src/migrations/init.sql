@@ -12,6 +12,7 @@ CREATE TABLE users (
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
   nome VARCHAR NOT NULL
+  user_id INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE tasks (

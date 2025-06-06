@@ -1,4 +1,5 @@
 const TarefaService = require("../services/TarefaService");
+const CategoriaService = require("../services/CategoriaService");
 
 module.exports = {
   async getAll(req, res) {
@@ -24,9 +25,19 @@ module.exports = {
 
   async create(req, res) {
     try {
-      const data = req.body;
-      const novaTarefa = await TarefaService.create(data);
-      res.status(201).json(novaTarefa);
+      const { titulo, descricao, status, data, userId, categoriaId } = req.body;
+
+      const novaTarefa = await TarefaService.create({
+        titulo,
+        descricao,
+        status,
+        data,
+        user_id: userId,
+        categoria_id: categoriaId,
+      });
+
+      // redireciona para a página de tarefas após a criação
+      res.redirect(`/pages/tasks?usuarioId=${userId}`);
     } catch (error) {
       res.status(500).json({ error: "Erro ao criar tarefa" });
     }
@@ -52,6 +63,28 @@ module.exports = {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Erro ao deletar tarefa" });
+    }
+  },
+
+  async renderTasksPage(req, res) {
+    try {
+      const userId = 2;
+      if (isNaN(userId)) {
+        return res.status(400).send("Usuário inválido");
+      }
+
+      // Busca todas as categorias do usuário
+      const categorias = await CategoriaService.getAllByUser(userId);
+
+      // Para cada categoria, busca as tarefas vinculadas
+      for (const categoria of categorias) {
+        const tarefas = await TarefaService.getByCategoriaId(categoria.id);
+        categoria.tarefas = tarefas;
+      }
+
+      res.render("tasks", { userId, categorias });
+    } catch (error) {
+      res.status(500).send("Erro ao carregar a página de tarefas");
     }
   },
 };
