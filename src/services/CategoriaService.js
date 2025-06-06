@@ -3,7 +3,7 @@ const Joi = require("joi");
 
 const categoriaSchema = Joi.object({
   nome: Joi.string().required(),
-  user_id: Joi.number().integer().required(), // adicionamos validação do user_id
+  user_id: Joi.number().integer().required(),
 });
 
 module.exports = {
@@ -21,8 +21,9 @@ module.exports = {
   },
 
   async update(id, dataCategoria) {
-    await categoriaSchema.validateAsync(dataCategoria);
-    return await CategoriaRepository.update(id, dataCategoria);
+    const { id: _, ...dataSemId } = dataCategoria;
+    const value = await categoriaSchema.validateAsync(dataSemId);
+    return await CategoriaRepository.update(id, value);
   },
 
   async delete(id) {

@@ -1,216 +1,165 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Gerenciador de Tarefas</title>
-    <meta charset="UTF-8" />
-    <style>
-      body {
-        font-family: "Segoe UI", Arial, sans-serif;
-        background: #f6f8fa;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        background: #1976d2;
-        color: #fff;
-        margin: 0;
-        padding: 2em 0 1em 0;
-        text-align: center;
-        letter-spacing: 2px;
-        font-size: 2.2em;
-        font-weight: 700;
-        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
-      }
-      .container {
-        max-width: 1100px;
-        margin: 2em auto;
-        padding: 0 1em;
-      }
-      .form-block {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
-        padding: 2em 2em 1em 2em;
-        margin-bottom: 2em;
-      }
-      .form-block label {
-        font-weight: 500;
-        color: #1976d2;
-        margin-bottom: 0.3em;
-        display: block;
-      }
-      .form-block input[type="text"],
-      .form-block input[type="date"],
-      .form-block textarea,
-      .form-block select {
-        width: 100%;
-        padding: 0.7em;
-        border: 1px solid #bdbdbd;
-        border-radius: 5px;
-        font-size: 1em;
-        background: #f9f9f9;
-        margin-bottom: 1em;
-        box-sizing: border-box;
-        transition: border 0.2s;
-      }
-      .form-block input[type="text"]:focus,
-      .form-block input[type="date"]:focus,
-      .form-block textarea:focus,
-      .form-block select:focus {
-        border: 1.5px solid #1976d2;
-        outline: none;
-      }
-      .form-block button {
-        background: #1976d2;
-        color: #fff;
-        border: none;
-        padding: 0.8em 2em;
-        border-radius: 5px;
-        font-size: 1em;
-        cursor: pointer;
-        font-weight: 600;
-        transition: background 0.2s;
-        margin-top: 0.5em;
-      }
-      .form-block button:hover {
-        background: #1565c0;
-      }
-      .categorias-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2em;
-        justify-content: flex-start;
-      }
-      .categoria-card {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
-        padding: 1.5em;
-        flex: 1 1 270px;
-        min-width: 270px;
-        max-width: 350px;
-        margin-bottom: 1em;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .categoria-card h2 {
-        margin-top: 0;
-        color: #1976d2;
-        font-size: 1.2em;
-        margin-bottom: 0.7em;
-        font-weight: 600;
-      }
-      ul {
-        padding-left: 1.2em;
-        margin: 0;
-      }
-      li {
-        margin-bottom: 0.7em;
-        background: #f1f8ff;
-        border-radius: 4px;
-        padding: 0.7em;
-        box-shadow: 0 1px 2px rgba(25, 118, 210, 0.04);
-        font-size: 1em;
-      }
-      small {
-        color: #555;
-        font-size: 0.95em;
-      }
-      .no-categoria {
-        text-align: center;
-        color: #888;
-        margin-top: 2em;
-        font-size: 1.1em;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Suas Tarefas</h1>
-    <div class="container">
-      <!-- Formulário para criar nova categoria -->
-      <form class="form-block" action="/pages/categorias" method="POST">
-        <input type="hidden" name="usuarioId" value="<%= userId %>" />
-        <label for="nomeCategoria">Nova Categoria:</label>
-        <input
-          type="text"
-          id="nomeCategoria"
-          name="nome"
-          required
-          placeholder="Nome da categoria"
-        />
-        <button type="submit">Adicionar Categoria</button>
-      </form>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gerenciador de Tarefas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 2em;
+    }
+    h1 {
+      color: #1976d2;
+      text-align: center;
+    }
+    .form-block, .categoria-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1.5em;
+      margin-bottom: 1.5em;
+    }
+    label {
+      font-weight: bold;
+      color: #1976d2;
+      display: block;
+      margin-top: 1em;
+    }
+    input[type="text"], input[type="date"], textarea, select {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.3em;
+    }
+    button {
+      margin-top: 1em;
+      padding: 0.5em 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #1976d2;
+      color: #fff;
+      cursor: pointer;
+    }
+    button.cancel {
+      background-color: #999;
+      margin-left: 0.5em;
+    }
+    button.delete {
+      background-color: #e53935;
+      margin-left: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Suas Tarefas</h1>
+  <div class="form-block">
+    <form action="/pages/categorias" method="POST">
+      <input type="hidden" name="usuarioId" value="<%= userId %>">
+      <label for="nomeCategoria">Nova Categoria</label>
+      <input type="text" name="nome" required placeholder="Nome da categoria">
+      <button type="submit">Adicionar Categoria</button>
+    </form>
+  </div>
 
-      <!-- Formulário para criar nova tarefa -->
-      <form class="form-block" action="/pages/tasks" method="POST">
-        <input type="hidden" name="userId" value="<%= userId %>" />
-        <label for="titulo">Título:</label>
-        <input
-          type="text"
-          id="titulo"
-          name="titulo"
-          required
-          placeholder="Título da tarefa"
-        />
+  <div class="form-block">
+    <form action="/pages/tasks" method="POST">
+      <input type="hidden" name="userId" value="<%= userId %>">
+      <label>Título</label>
+      <input type="text" name="titulo" required>
+      <label>Descrição</label>
+      <textarea name="descricao"></textarea>
+      <label>Status</label>
+      <select name="status">
+        <option value="pendente">Pendente</option>
+        <option value="em_andamento">Em andamento</option>
+        <option value="concluida">Concluída</option>
+      </select>
+      <label>Data</label>
+      <input type="date" name="data" required>
+      <label>Categoria</label>
+      <select name="categoriaId" required>
+        <% categorias.forEach(c => { %>
+          <option value="<%= c.id %>"><%= c.nome %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Adicionar Tarefa</button>
+    </form>
+  </div>
 
-        <label for="descricao">Descrição:</label>
-        <textarea
-          id="descricao"
-          name="descricao"
-          placeholder="Descrição da tarefa"
-        ></textarea>
+  <% if (categorias.length === 0) { %>
+    <p style="text-align:center; color: #555;">Nenhuma categoria encontrada.</p>
+  <% } %>
 
-        <label for="status">Status:</label>
-        <select id="status" name="status" required>
-          <option value="pendente">Pendente</option>
-          <option value="em_andamento">Em Andamento</option>
-          <option value="concluida">Concluída</option>
-        </select>
-
-        <label for="data">Data:</label>
-        <input type="date" id="data" name="data" required />
-
-        <label for="categoriaId">Categoria:</label>
-        <select id="categoriaId" name="categoriaId" required>
-          <option value="">Selecione uma categoria</option>
-          <% categorias.forEach(categoria => { %>
-          <option value="<%= categoria.id %>"><%= categoria.nome %></option>
-          <% }); %>
-        </select>
-        <button type="submit">Adicionar Tarefa</button>
-      </form>
-
-      <!-- Lista de categorias e tarefas -->
-      <div class="categorias-container">
-        <% if (categorias && categorias.length > 0) { %> <%
-        categorias.forEach(categoria => { %>
-        <div class="categoria-card">
-          <h2><%= categoria.nome %></h2>
-          <% if (categoria.tarefas && categoria.tarefas.length > 0) { %>
-          <ul>
-            <% categoria.tarefas.forEach(tarefa => { %>
-            <li>
-              <strong><%= tarefa.titulo %></strong>
-              <% if (tarefa.descricao) { %> - <%= tarefa.descricao %> <% } %>
-              <br />
-              <small>
-                Status: <%= tarefa.status %> | Data: <%= new
-                Date(tarefa.data).toLocaleDateString() %>
-              </small>
-            </li>
-            <% }); %>
-          </ul>
-          <% } else { %>
-          <p>Nenhuma tarefa nesta categoria.</p>
-          <% } %>
-        </div>
-        <% }); %> <% } else { %>
-        <div class="no-categoria">
-          <p>Nenhuma categoria encontrada. Crie uma categoria primeiro.</p>
-        </div>
-        <% } %>
+  <% categorias.forEach(categoria => { %>
+    <div class="categoria-card">
+      <div id="view-categoria-<%= categoria.id %>">
+        <h2><%= categoria.nome %></h2>
+        <button onclick="editarCategoria('<%= categoria.id %>')">Editar</button>
       </div>
+      <form id="form-categoria-<%= categoria.id %>" action="/pages/categorias/<%= categoria.id %>?_method=PUT" method="POST" style="display:none;">
+        <input type="text" name="nome" value="<%= categoria.nome %>">
+        <button type="submit">Salvar</button>
+        <button type="button" class="cancel" onclick="cancelarEdicaoCategoria('<%= categoria.id %>')">Cancelar</button>
+        <form action="/pages/categorias/<%= categoria.id %>?_method=DELETE" method="POST" style="display:inline;">
+          <button type="submit" class="delete">Excluir</button>
+        </form>
+      </form>
+
+      <% if (categoria.tarefas.length === 0) { %>
+        <p>Nenhuma tarefa.</p>
+      <% } else { %>
+        <ul>
+          <% categoria.tarefas.forEach(tarefa => { %>
+            <li>
+              <div id="view-tarefa-<%= tarefa.id %>">
+                <strong><%= tarefa.titulo %></strong> - <%= tarefa.descricao %><br>
+                <small>Status: <%= tarefa.status %> | Data: <%= new Date(tarefa.data).toLocaleDateString() %></small>
+                <br>
+                <button onclick="editarTarefa('<%= tarefa.id %>')">Editar</button>
+              </div>
+
+              <form id="form-tarefa-<%= tarefa.id %>" action="/pages/tasks/<%= tarefa.id %>?_method=PUT" method="POST" style="display:none; margin-top: 1em;">
+                <input type="text" name="titulo" value="<%= tarefa.titulo %>" required>
+                <textarea name="descricao"><%= tarefa.descricao %></textarea>
+                <select name="status">
+                  <option value="pendente" <%= tarefa.status === 'pendente' ? 'selected' : '' %>>Pendente</option>
+                  <option value="em_andamento" <%= tarefa.status === 'em_andamento' ? 'selected' : '' %>>Em andamento</option>
+                  <option value="concluida" <%= tarefa.status === 'concluida' ? 'selected' : '' %>>Concluída</option>
+                </select>
+                <input type="date" name="data" value="<%= tarefa.data.toISOString().substring(0,10) %>" required>
+                <input type="hidden" name="categoriaId" value="<%= categoria.id %>">
+                <button type="submit">Salvar</button>
+                <button type="button" class="cancel" onclick="cancelarEdicaoTarefa('<%= tarefa.id %>')">Cancelar</button>
+                <form action="/pages/tasks/<%= tarefa.id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="delete">Excluir</button>
+                </form>
+              </form>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
     </div>
-  </body>
+  <% }) %>
+
+  <script>
+    function editarCategoria(id) {
+      document.getElementById('view-categoria-' + id).style.display = 'none';
+      document.getElementById('form-categoria-' + id).style.display = 'block';
+    }
+    function cancelarEdicaoCategoria(id) {
+      document.getElementById('form-categoria-' + id).style.display = 'none';
+      document.getElementById('view-categoria-' + id).style.display = 'block';
+    }
+
+    function editarTarefa(id) {
+      document.getElementById('view-tarefa-' + id).style.display = 'none';
+      document.getElementById('form-tarefa-' + id).style.display = 'block';
+    }
+    function cancelarEdicaoTarefa(id) {
+      document.getElementById('form-tarefa-' + id).style.display = 'none';
+      document.getElementById('view-tarefa-' + id).style.display = 'block';
+    }
+  </script>
+</body>
 </html>

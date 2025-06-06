@@ -19,7 +19,9 @@ PUT http://localhost:3000/categorias/1
 Content-Type: application/json
 
 {
-  "nome": "Trabalho"
+  "id": 1,
+  "nome": "estudoin",
+  "user_id": 6
 }
 
 ### Deletar categoria

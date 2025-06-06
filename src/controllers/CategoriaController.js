@@ -57,6 +57,7 @@ module.exports = {
   async update(req, res) {
     try {
       const id = parseInt(req.params.id);
+      console.log(req.body);
       const categoriaAtualizada = await CategoriaService.update(id, req.body);
       if (!categoriaAtualizada)
         return res.status(404).json({ message: "Categoria não encontrada" });

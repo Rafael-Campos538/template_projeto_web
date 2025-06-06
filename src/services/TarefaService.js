@@ -27,18 +27,24 @@ module.exports = {
   },
 
   async update(id, data) {
-    // Validar dados parciais para update
-    const updateSchema = tarefaSchema.fork(Object.keys(data), (schema) =>
+    // Remove o campo 'id' para evitar erro na validação
+    const { id: _, ...dataSemId } = data;
+
+    // Cria schema parcial para validar apenas os campos enviados
+    const updateSchema = tarefaSchema.fork(Object.keys(dataSemId), (schema) =>
       schema.optional()
     );
-    await updateSchema.validateAsync(data);
-    return await TarefaRepository.update(id, data);
+
+    // Valida os dados sem o campo 'id'
+    await updateSchema.validateAsync(dataSemId);
+
+    // Chama o repository passando o id e os dados validados
+    return await TarefaRepository.update(id, dataSemId);
   },
 
   async delete(id) {
-    await TarefaRepository.delete(id);
+    return await TarefaRepository.delete(id);
   },
-
   async getByCategoriaId(categoriaId) {
     return await TarefaRepository.getByCategoriaId(categoriaId);
   },
