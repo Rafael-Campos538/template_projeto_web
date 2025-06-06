@@ -10,7 +10,8 @@ POST http://localhost:3000/categorias
 Content-Type: application/json
 
 {
-  "nome": "Estudoinho"
+  "nome": "Estudoinho",
+  "user_id": 6
 }
 
 ### Atualizar categoria
@@ -39,7 +40,7 @@ Content-Type: application/json
 
 {
   "nome": "Rafael Figueiredo Campos",
-  "email": "rafael@example.com",
+  "email": "rafaelf@example.com",
   "senha": "123456"
 }
 

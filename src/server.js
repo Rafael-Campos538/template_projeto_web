@@ -15,6 +15,7 @@ const tarefaRoutes = require("./routes/tarefaRoutes");
 const usuarioController = require("./controllers/UsuarioController");
 //usuarioController.login(req, res);
 const tarefaController = require("../src/controllers/TarefaController");
+const categoriaController = require("./controllers/CategoriaController");
 
 app.use("/categorias", categoriaRoutes);
 app.use("/usuarios", usuarioRoutes);
@@ -28,13 +29,24 @@ app.use(express.static(path.join(__dirname, "src", "public")));
 app.get("/", (req, res) => res.redirect("/login"));
 
 app.get("/pages/login", (req, res) => res.render("login"));
-app.post("/pages/login", (req, res) => usuarioController.login(req, res));
+app.post("/pages/login", (req, res) => tarefaController.login(req, res));
 
 app.get("/pages/cadastro", (req, res) => res.render("cadastro"));
-app.post("/pages/cadastro", (req, res) => usuarioController.cadastrar(req, res));
+app.post("/pages/cadastro", (req, res) =>
+  usuarioController.cadastrar(req, res)
+);
 
-app.get("/pages/tasks", (req, res) => tarefaController.renderTasksPage(req, res));
+app.get("/pages/tasks", (req, res) =>
+  tarefaController.renderTasksPage(req, res)
+);
 app.post("/pages/tasks", (req, res) => tarefaController.create(req, res));
+
+app.get("/pages/tasks", (req, res) => {
+  res.redirect("/pages/tasks");
+});
+app.post("/pages/categorias", (req, res) =>
+  categoriaController.createFromForm(req, res)
+);
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => {

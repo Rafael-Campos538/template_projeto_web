@@ -16,19 +16,6 @@ module.exports = {
     }
   },
 
-  /*async renderCategoriasPage(req, res) {
-    try {
-      const userId = parseInt(req.query.usuarioId);
-      if (isNaN(userId)) {
-        return res.status(400).send("Usuário inválido");
-      }
-      const categorias = await CategoriaService.getAllByUser(userId);
-      res.render("categorias", { categorias, userId });
-    } catch (error) {
-      res.status(500).send("Erro ao carregar categorias: " + error.message);
-    }
-  },*/
-
   async getById(req, res) {
     try {
       const id = parseInt(req.params.id);
@@ -61,7 +48,7 @@ module.exports = {
         return res.status(400).send("Usuário não informado");
       }
       await CategoriaService.create({ nome, user_id: parseInt(usuarioId) });
-      res.redirect(`/pages/categorias?usuarioId=${usuarioId}`);
+      res.redirect(`/pages/tasks?usuarioId=${usuarioId}`);
     } catch (error) {
       res.status(400).send("Erro ao criar categoria: " + error.message);
     }

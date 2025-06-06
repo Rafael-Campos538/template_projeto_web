@@ -1,23 +1,216 @@
 <!DOCTYPE html>
 <html>
-<head><title>Gerenciador de Tarefas</title></head>
-<body>
-<h1>Suas Tarefas</h1>
+  <head>
+    <title>Gerenciador de Tarefas</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f6f8fa;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        background: #1976d2;
+        color: #fff;
+        margin: 0;
+        padding: 2em 0 1em 0;
+        text-align: center;
+        letter-spacing: 2px;
+        font-size: 2.2em;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+      }
+      .container {
+        max-width: 1100px;
+        margin: 2em auto;
+        padding: 0 1em;
+      }
+      .form-block {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+        padding: 2em 2em 1em 2em;
+        margin-bottom: 2em;
+      }
+      .form-block label {
+        font-weight: 500;
+        color: #1976d2;
+        margin-bottom: 0.3em;
+        display: block;
+      }
+      .form-block input[type="text"],
+      .form-block input[type="date"],
+      .form-block textarea,
+      .form-block select {
+        width: 100%;
+        padding: 0.7em;
+        border: 1px solid #bdbdbd;
+        border-radius: 5px;
+        font-size: 1em;
+        background: #f9f9f9;
+        margin-bottom: 1em;
+        box-sizing: border-box;
+        transition: border 0.2s;
+      }
+      .form-block input[type="text"]:focus,
+      .form-block input[type="date"]:focus,
+      .form-block textarea:focus,
+      .form-block select:focus {
+        border: 1.5px solid #1976d2;
+        outline: none;
+      }
+      .form-block button {
+        background: #1976d2;
+        color: #fff;
+        border: none;
+        padding: 0.8em 2em;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+        margin-top: 0.5em;
+      }
+      .form-block button:hover {
+        background: #1565c0;
+      }
+      .categorias-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: flex-start;
+      }
+      .categoria-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+        padding: 1.5em;
+        flex: 1 1 270px;
+        min-width: 270px;
+        max-width: 350px;
+        margin-bottom: 1em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .categoria-card h2 {
+        margin-top: 0;
+        color: #1976d2;
+        font-size: 1.2em;
+        margin-bottom: 0.7em;
+        font-weight: 600;
+      }
+      ul {
+        padding-left: 1.2em;
+        margin: 0;
+      }
+      li {
+        margin-bottom: 0.7em;
+        background: #f1f8ff;
+        border-radius: 4px;
+        padding: 0.7em;
+        box-shadow: 0 1px 2px rgba(25, 118, 210, 0.04);
+        font-size: 1em;
+      }
+      small {
+        color: #555;
+        font-size: 0.95em;
+      }
+      .no-categoria {
+        text-align: center;
+        color: #888;
+        margin-top: 2em;
+        font-size: 1.1em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Suas Tarefas</h1>
+    <div class="container">
+      <!-- Formulário para criar nova categoria -->
+      <form class="form-block" action="/pages/categorias" method="POST">
+        <input type="hidden" name="usuarioId" value="<%= userId %>" />
+        <label for="nomeCategoria">Nova Categoria:</label>
+        <input
+          type="text"
+          id="nomeCategoria"
+          name="nome"
+          required
+          placeholder="Nome da categoria"
+        />
+        <button type="submit">Adicionar Categoria</button>
+      </form>
 
-<form action="/pages/tasks" method="POST">
-    <input type="hidden" name="userId" value="<%= userId %>">
-    Categoria: <input type="text" name="categoria" required>
-    <button type="submit">Adicionar</button>
-</form>
+      <!-- Formulário para criar nova tarefa -->
+      <form class="form-block" action="/pages/tasks" method="POST">
+        <input type="hidden" name="userId" value="<%= userId %>" />
+        <label for="titulo">Título:</label>
+        <input
+          type="text"
+          id="titulo"
+          name="titulo"
+          required
+          placeholder="Título da tarefa"
+        />
 
-<ul>
-    <% if (typeof categoria !== 'undefined') { %>
-        <% categorias.forEach(t => { %>
-            <li><%= t.descricao %></li>
-        <% }); %>
-    <% } %>
-</ul>
+        <label for="descricao">Descrição:</label>
+        <textarea
+          id="descricao"
+          name="descricao"
+          placeholder="Descrição da tarefa"
+        ></textarea>
 
-</body>
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+          <option value="pendente">Pendente</option>
+          <option value="em_andamento">Em Andamento</option>
+          <option value="concluida">Concluída</option>
+        </select>
+
+        <label for="data">Data:</label>
+        <input type="date" id="data" name="data" required />
+
+        <label for="categoriaId">Categoria:</label>
+        <select id="categoriaId" name="categoriaId" required>
+          <option value="">Selecione uma categoria</option>
+          <% categorias.forEach(categoria => { %>
+          <option value="<%= categoria.id %>"><%= categoria.nome %></option>
+          <% }); %>
+        </select>
+        <button type="submit">Adicionar Tarefa</button>
+      </form>
+
+      <!-- Lista de categorias e tarefas -->
+      <div class="categorias-container">
+        <% if (categorias && categorias.length > 0) { %> <%
+        categorias.forEach(categoria => { %>
+        <div class="categoria-card">
+          <h2><%= categoria.nome %></h2>
+          <% if (categoria.tarefas && categoria.tarefas.length > 0) { %>
+          <ul>
+            <% categoria.tarefas.forEach(tarefa => { %>
+            <li>
+              <strong><%= tarefa.titulo %></strong>
+              <% if (tarefa.descricao) { %> - <%= tarefa.descricao %> <% } %>
+              <br />
+              <small>
+                Status: <%= tarefa.status %> | Data: <%= new
+                Date(tarefa.data).toLocaleDateString() %>
+              </small>
+            </li>
+            <% }); %>
+          </ul>
+          <% } else { %>
+          <p>Nenhuma tarefa nesta categoria.</p>
+          <% } %>
+        </div>
+        <% }); %> <% } else { %>
+        <div class="no-categoria">
+          <p>Nenhuma categoria encontrada. Crie uma categoria primeiro.</p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
 </html>
-

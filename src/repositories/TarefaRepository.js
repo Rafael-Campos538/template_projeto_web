@@ -48,4 +48,13 @@ module.exports = {
   async delete(id) {
     await db.query("DELETE FROM tasks WHERE id = $1", [id]);
   },
+
+  // MÉTODO FALTANTE - Adicionar este método
+  async getByCategoriaId(categoriaId) {
+    const result = await db.query(
+      "SELECT * FROM tasks WHERE categoria_id = $1",
+      [categoriaId]
+    );
+    return result.rows;
+  },
 };
