@@ -1,20 +1,110 @@
 <!DOCTYPE html>
 <html>
-<head><title>Cadastro</title></head>
-<body>
-  <h1>Cadastro</h1>
+  <head>
+    <title>Cadastro</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f6f8fa;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 400px;
+        margin: 3em auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+        padding: 2em 2em 1.5em 2em;
+      }
+      h1 {
+        text-align: center;
+        color: #1976d2;
+        margin-bottom: 1.5em;
+      }
+      label {
+        font-weight: 500;
+        color: #1976d2;
+        display: block;
+        margin-bottom: 0.3em;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 0.7em;
+        border: 1px solid #bdbdbd;
+        border-radius: 5px;
+        font-size: 1em;
+        background: #f9f9f9;
+        margin-bottom: 1em;
+        box-sizing: border-box;
+        transition: border 0.2s;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="password"]:focus {
+        border: 1.5px solid #1976d2;
+        outline: none;
+      }
+      button {
+        background: #1976d2;
+        color: #fff;
+        border: none;
+        padding: 0.8em 2em;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+        margin-top: 0.5em;
+        margin-bottom: 1em;
+        width: 100%;
+      }
+      button:hover {
+        background: #1565c0;
+      }
+      .error {
+        color: #e53935;
+        text-align: center;
+        margin-bottom: 1em;
+      }
+      .link-voltar {
+        display: block;
+        text-align: center;
+        margin-top: 1em;
+        color: #1976d2;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .link-voltar:hover {
+        color: #1565c0;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cadastro</h1>
 
-  <% if (typeof error !== 'undefined') { %>
-    <p style="color:red;"><%= error %></p>
-  <% } %>
+      <% if (typeof error !== 'undefined') { %>
+      <p class="error"><%= error %></p>
+      <% } %>
 
-<form action="/pages/cadastro" method="POST">
-      Nome: <input type="text" name="nome" required><br>
-      Email: <input type="email" name="email" required><br>
-      Senha: <input type="password" name="senha" required><br>
-      <button type="submit">Cadastrar</button>
-      <a href="/pages/task">Voltar ao login</a>
-  </form>
-  <a href="/pages/login">Voltar ao login</a>
-</body>
+      <form action="/pages/cadastro" method="POST">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required />
+
+        <button type="submit">Cadastrar</button>
+      </form>
+      <a class="link-voltar" href="/pages/login">Voltar ao login</a>
+    </div>
+  </body>
 </html>
