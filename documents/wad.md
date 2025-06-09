@@ -50,3 +50,6 @@ CREATE TABLE tasks (
 );
 
 ```
+> O Diagrama de arquitetura MVC está representado na imagem abaixo:
+
+![Diagrama de arquitetura](../assets/Diagrama_gerenciador-tarefas.png)
