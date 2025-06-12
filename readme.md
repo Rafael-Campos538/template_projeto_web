@@ -48,7 +48,13 @@ template_projeto_web/
 │ │ └── user.test.js
 │ │
 │ ├── views/
-│ │ └── docs.html
+│ │ ├── pages/
+│ │   ├──cadastro.ejs
+│ │   ├──login.ejs
+│ │   └──tasks.ejs
+│ │ └── partials/
+│ │   ├──footer.ejs
+│ │   └──header.ejs
 │ │
 │ ├── database.js
 │ ├── server.js
@@ -98,3 +104,4 @@ template_projeto_web/
      npm start
      ```
    - O sistema será iniciado em `http://localhost:3000` (ou na porta especificada).
+
