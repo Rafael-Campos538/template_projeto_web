@@ -61,7 +61,7 @@
 <body>
   <h1>Suas Tarefas</h1>
   <div class="form-block">
-    <form action="/pages/categorias" method="POST">
+    <form action="/categorias" method="POST">
       <input type="hidden" name="usuarioId" value="<%= userId %>">
       <label for="nomeCategoria">Nova Categoria</label>
       <input type="text" name="nome" required placeholder="Nome da categoria">
@@ -70,7 +70,7 @@
   </div>
 
   <div class="form-block">
-    <form action="/pages/tasks" method="POST">
+    <form action="/tasks" method="POST">
       <input type="hidden" name="userId" value="<%= userId %>">
       <label>Título</label>
       <input type="text" name="titulo" required>
@@ -130,7 +130,7 @@
               </div>
 
               <!-- Formulário de edição da tarefa -->
-              <form id="form-tarefa-<%= tarefa.id %>" action="/pages/tasks/<%= tarefa.id %>?_method=PUT" method="POST" style="display:none; margin-top: 1em;">
+              <form id="form-tarefa-<%= tarefa.id %>" action="/tasks/<%= tarefa.id %>?_method=PUT" method="POST" style="display:none; margin-top: 1em;">
                 <input type="text" name="titulo" value="<%= tarefa.titulo %>" required>
                 <textarea name="descricao"><%= tarefa.descricao %></textarea>
                 <select name="status">
@@ -180,7 +180,7 @@
         // Criar um formulário temporário para fazer o DELETE
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = `/pages/tasks/${id}?_method=DELETE`;
+        form.action = `/tasks/${id}?_method=DELETE`;
         document.body.appendChild(form);
         form.submit();
       }

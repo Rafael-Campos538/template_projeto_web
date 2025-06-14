@@ -57,19 +57,19 @@ module.exports = {
     try {
       const { nome, email, senha } = req.body;
       await UsuarioService.create({ nome, email, senha });
-      res.redirect("/pages/login");
+      res.redirect("/login");
     } catch (error) {
-      res.render("pages/cadastro", { error: error.message });
+      res.render("cadastro", { error: error.message });
     }
-  },  
+  },
 
   async login(req, res) {
     try {
       const { email, senha } = req.body;
-      await UsuarioService.login(email, senha);
-      res.redirect("/pages/tasks");
+      const usuario = await UsuarioService.login(email, senha);
+      res.redirect(`/tasks?usuarioId=${usuario.id}`);
     } catch (error) {
-      res.render("pages/login", { error: "Credenciais inválidas" });
+      res.render("login", { error: "Credenciais inválidas" });
     }
   },
 };

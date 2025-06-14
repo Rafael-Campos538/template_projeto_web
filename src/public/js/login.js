@@ -1,5 +1,1 @@
-function salvarId() {
-  const nome = document.querySelector('input[name="nome"]').value;
-  localStorage.setItem("username", nome);
-  console.log("Usuário salvo no localStorage:", nome);
-}
+// Este arquivo está vazio pois não precisamos de JavaScript no login

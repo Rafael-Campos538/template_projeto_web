@@ -90,7 +90,7 @@
       <p class="error"><%= error %></p>
       <% } %>
 
-      <form action="/pages/login" method="POST" onsubmit="salvarId()">
+      <form action="/login" method="POST">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required />
 
@@ -99,7 +99,7 @@
 
         <button type="submit">Entrar</button>
       </form>
-      <a class="link-cadastro" href="/pages/cadastro">Cadastrar</a>
+      <a class="link-cadastro" href="/cadastro">Cadastrar</a>
     </div>
     <script src="/js/login.js"></script>
   </body>

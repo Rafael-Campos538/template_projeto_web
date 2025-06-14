@@ -2,7 +2,7 @@
 # Gerenciador de Tarefas
 
 ### Descrição do Sistema:
-Este projeto consiste em uma API RESTful para gerenciar usuários, categorias e tarefas. Utiliza Node.js, Express, PostgreSQL e segue o padrão de arquitetura MVC. Os usuários podem cadastrar atividades, marcar como concluídas ou não e relacionar cada tarefa a uma categoria específica.
+Este projeto consiste em uma API RESTful para gerenciar usuários, categorias e tarefas. Utiliza Node.js, Express, PostgreSQL e segue o padrão de arquitetura MVC. Os usuários podem cadastrar atividades, marcar como concluídas ou não e relacionar cada tarefa a uma categoria específica. Este é um vídeo explicativo sobre o modelo final do meu projeto [Explicação gerenciador de tarefas](assets/Explicacao_gerenciador-tarefas.mp4).
 
 ### Estrutura de Pastas:
  ```bash

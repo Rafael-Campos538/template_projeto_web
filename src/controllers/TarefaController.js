@@ -57,7 +57,7 @@ module.exports = {
       }
 
       // Se é do formulário, redireciona
-      res.redirect(`/pages/tasks?usuarioId=${userId}`);
+      res.redirect(`/tasks?usuarioId=${userId}`);
     } catch (error) {
       console.error("Erro ao criar tarefa:", error);
 
@@ -111,7 +111,7 @@ module.exports = {
       }
 
       // Se é do formulário, redireciona para a página de tarefas
-      res.redirect(`/pages/tasks?usuarioId=${tarefaAtual.user_id}`);
+      res.redirect(`/tasks?usuarioId=${tarefaAtual.user_id}`);
     } catch (error) {
       console.error("Erro ao atualizar tarefa:", error);
 
@@ -151,7 +151,7 @@ module.exports = {
       }
 
       // Se é do formulário, redireciona para a página de tarefas
-      res.redirect(`/pages/tasks?usuarioId=${tarefaAtual.user_id}`);
+      res.redirect(`/tasks?usuarioId=${tarefaAtual.user_id}`);
     } catch (error) {
       console.error("Erro ao deletar tarefa:", error);
 
